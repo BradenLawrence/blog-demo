@@ -24,7 +24,8 @@ var Blog = mongoose.model("Blog", blogSchema)
 //     image: "http://i.imgur.com/IbDSnAG.jpg"
 // })
 
-// Routes
+// Routes:
+// // Index
 app.get("/", function(request, response){
     response.redirect("/blogs")
 })
@@ -40,17 +41,14 @@ app.get("/blogs", function(request, response){
     
 })
 
+// New
 app.get("/blogs/new", function(request, response){
     response.render("new")
 })
 
+// Create
 app.post("/blogs", function(request, response){
-    var entry = {
-        title:  request.body.title,
-        text:   request.body.text,
-        image:  request.body.image
-    }
-    Blog.create(entry, function(error, dbResponse){
+    Blog.create(request.body.blogEntry, function(error, dbResponse){
         if(error){
             console.log("Oh no!")
         } else {
@@ -58,6 +56,29 @@ app.post("/blogs", function(request, response){
         }
     })
 })
+
+// Show
+app.get("/blogs/:id", function(request, response){
+    Blog.findById(request.params.id, function(error, dbResponse){
+        if(error){
+            console.log("Oh no!")
+        } else {
+            response.render("show", {blog: dbResponse})
+        }
+    })
+})
+
+// Edit
+app.get("/blogs/:id/edit", function(request, response){
+    Blog.findById(request.params.id, function(error, dbResponse){
+        if(error) {
+            console.log("Oh no!")
+        } else {
+            response.render("edit", {blog: dbResponse})
+        }
+    })
+})
+// , {blog:request.params.id}
 
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log("Blog server is running...")

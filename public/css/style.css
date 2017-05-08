@@ -5,3 +5,53 @@ i.icon {
 img {
     max-width: 200px;
 }
+
+.ui.label {
+    float:right;
+}
+
+.content {
+    margin-top:10px;
+}
+
+
+button a {
+    color: #ffffff;
+}
+
+button a:hover {
+    color: #ffffff;
+}
+
+button a:active {
+    color: #ffffff;
+}
+
+.footer {
+    margin-top:20px;
+    font-size: .75em;
+    color:#7f7f7f;
+}
+
+.item.bordered {
+    padding: 1em 1em;
+    border: 1px solid rgba(34, 36, 38, 0.15);
+}
+
+.blogItem {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    margin: 1em 0em;
+    width: 100%;
+    min-height: 0px;
+    background: transparent;
+    padding: 1em 1em;
+    border: 1px solid rgba(34, 36, 38, 0.15);
+    border-radius: 0rem;
+    box-shadow: none;
+    -webkit-transition: box-shadow 0.1s ease;
+    transition: box-shadow 0.1s ease;
+    z-index: '';
+}
