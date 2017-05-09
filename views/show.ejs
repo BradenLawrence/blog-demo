@@ -2,8 +2,13 @@
 
 <div class="ui main text container">
     <div class="ui label">
-        Posted 
         <div class="detail"><%= blog.date.toDateString() %></div>
+        <div class="detail">
+            <a href="/blogs/<%= blog._id %>/edit"><button class="ui icon mini grey button"><i class="write icon"></i></button></a>
+        </div>
+        <form class="detail attached" action="/blogs/<%= blog._id %>?_method=DELETE" method="POST">
+            <button class="ui icon mini red button"><i class="remove icon centered"></i></button>
+        </form>
     </div>
     <div class="ui huge header"><%= blog.title %></div>
     <div class="ui top segment">

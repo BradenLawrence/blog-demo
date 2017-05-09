@@ -1,12 +1,14 @@
-var express     = require("express"),
-    app         = express(),
-    bodyParser  = require("body-parser"),
-    mongoose    = require("mongoose")
+var express         = require("express"),
+    app             = express(),
+    bodyParser      = require("body-parser"),
+    mongoose        = require("mongoose"),
+    methodOverride  = require("method-override")
     
 // App settings
 app.set("view engine", "ejs")
 app.use(express.static("public"))
 app.use(bodyParser.urlencoded({extended: true}))
+app.use(methodOverride("_method"))
 
 // Database settings
 mongoose.connect("mongodb://localhost/blog-demo")
@@ -18,11 +20,11 @@ var blogSchema = new mongoose.Schema({
 })
 var Blog = mongoose.model("Blog", blogSchema)
 
-// Blog.create({
-//     title: "Test post, please ignore.",
-//     text: "Nothing to see here. Keep moving, citizen.",
-//     image: "http://i.imgur.com/IbDSnAG.jpg"
-// })
+Blog.create({
+    title: "Test post, please ignore.",
+    text: "Nothing to see here. Keep moving, citizen.",
+    image: "http://i.imgur.com/IbDSnAG.jpg"
+})
 
 // Routes:
 // // Index
@@ -78,7 +80,29 @@ app.get("/blogs/:id/edit", function(request, response){
         }
     })
 })
-// , {blog:request.params.id}
+
+// Update
+app.put("/blogs/:id", function(request, response){
+    Blog.findByIdAndUpdate(request.params.id, request.body.blogEntry, function(error, dbResponse){
+        if(error){
+            response.redirect("/blogs")
+        } else {
+            response.redirect("/blogs/" + request.params.id)
+        }
+    })
+})
+
+
+// Delete
+app.delete("/blogs/:id", function(request, response){
+    Blog.findByIdAndRemove(request.params.id, function(error){
+        if(error){
+            console.log("Oh no!")
+        } else {
+            response.redirect("/blogs")
+        }
+    })
+})
 
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log("Blog server is running...")

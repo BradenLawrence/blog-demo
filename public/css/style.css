@@ -1,4 +1,4 @@
-i.icon {
+.header>.icon {
     font-size: 2em ;
 }
 
@@ -8,6 +8,11 @@ img {
 
 .ui.label {
     float:right;
+    line-height: 2.25;
+}
+
+.ui.label > .detail.attached {
+    margin-left: 0;
 }
 
 .content {
@@ -38,20 +43,6 @@ button a:active {
     border: 1px solid rgba(34, 36, 38, 0.15);
 }
 
-.blogItem {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    margin: 1em 0em;
-    width: 100%;
-    min-height: 0px;
-    background: transparent;
-    padding: 1em 1em;
-    border: 1px solid rgba(34, 36, 38, 0.15);
-    border-radius: 0rem;
-    box-shadow: none;
-    -webkit-transition: box-shadow 0.1s ease;
-    transition: box-shadow 0.1s ease;
-    z-index: '';
+form {
+    margin: inherit;
 }
