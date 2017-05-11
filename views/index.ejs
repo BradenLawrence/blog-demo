@@ -16,7 +16,7 @@
                     <div class="detail"><%= blog.date.toDateString() %></div>
                 </div>
                 <a class="header"><%= blog.title %></a>
-                <p class="content"><%= blog.text.substring(0,100) %>...</p>
+                <p class="content"><%- blog.text.substring(0,100) %>...</p>
                 <div class="meta">
                     <button class="ui teal button"><a href="/blogs/<%= blog.id %>">Read more</a></button>
                 </div>

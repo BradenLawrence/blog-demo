@@ -1,14 +1,16 @@
-var express         = require("express"),
-    app             = express(),
-    bodyParser      = require("body-parser"),
-    mongoose        = require("mongoose"),
-    methodOverride  = require("method-override")
+var express          = require("express"),
+    app              = express(),
+    bodyParser       = require("body-parser"),
+    mongoose         = require("mongoose"),
+    methodOverride   = require("method-override"),
+    expressSanitizer = require("express-sanitizer")
     
 // App settings
 app.set("view engine", "ejs")
 app.use(express.static("public"))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(methodOverride("_method"))
+app.use(expressSanitizer)
 
 // Database settings
 mongoose.connect("mongodb://localhost/blog-demo")
@@ -20,14 +22,8 @@ var blogSchema = new mongoose.Schema({
 })
 var Blog = mongoose.model("Blog", blogSchema)
 
-Blog.create({
-    title: "Test post, please ignore.",
-    text: "Nothing to see here. Keep moving, citizen.",
-    image: "http://i.imgur.com/IbDSnAG.jpg"
-})
-
 // Routes:
-// // Index
+// Index
 app.get("/", function(request, response){
     response.redirect("/blogs")
 })
@@ -50,6 +46,7 @@ app.get("/blogs/new", function(request, response){
 
 // Create
 app.post("/blogs", function(request, response){
+    request.body.blogEntry.text = request.sanitize(request.body.blogEntry.text)
     Blog.create(request.body.blogEntry, function(error, dbResponse){
         if(error){
             console.log("Oh no!")
@@ -83,6 +80,7 @@ app.get("/blogs/:id/edit", function(request, response){
 
 // Update
 app.put("/blogs/:id", function(request, response){
+    request.body.blogEntry.text = request.sanitize(request.body.blogEntry.text)
     Blog.findByIdAndUpdate(request.params.id, request.body.blogEntry, function(error, dbResponse){
         if(error){
             response.redirect("/blogs")
